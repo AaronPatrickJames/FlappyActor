@@ -1,6 +1,6 @@
 import pygame, sys, time
 from settings import *
-
+from Sprites import BG
 
 class Game:
     def __init__(self):
@@ -10,6 +10,17 @@ class Game:
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption("Flappy Bird")
         self.clock = pygame.time.Clock()
+
+        #Sprite Groups
+        self.all_sprites = pygame.sprite.Group()
+        self.collision_sprites = pygame.sprite.Group()
+
+        #scale factor
+        bg_height = pygame.image.load("../Graphics/Environment/Background.png").get_height()
+        self.scale_factor = WINDOW_HEIGHT / bg_height
+
+        #Sprites
+        BG(self.all_sprites, self.scale_factor)
 
     def run(self):
         last_time = time.time()
@@ -27,6 +38,10 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+            #Game Locic
+            self.all_sprites.update(dt)
+            self.all_sprites.draw(self.display_surface)
 
             pygame.display.update()
             self.clock.tick(FRAMERATE)
