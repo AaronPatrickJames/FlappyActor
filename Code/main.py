@@ -1,6 +1,6 @@
 import pygame, sys, time
 from settings import *
-from Sprites import BG, Ground, Avatar
+from Sprites import BG, Ground, Avatar, Obstical
 
 class Game:
     def __init__(self):
@@ -22,10 +22,23 @@ class Game:
         #Sprites
         BG(self.all_sprites, self.scale_factor)
         Ground(self.all_sprites, self.scale_factor)
-        Avatar(self.all_sprites, self.scale_factor / 20)
+        NewFactor = self.scale_factor / 15
+
+
+        self.avatar = Avatar(self.all_sprites, NewFactor)
+
+        
+
+        #timer
+        self.obstical_timer = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.obstical_timer, 1000)
+        self.ObsticalFactor = self.scale_factor / 8
+
 
     def run(self):
+        pygame.mixer.Sound("../Sound/gamestarted.mp3").play()
         last_time = time.time()
+        pygame.mixer.Sound("../Sound/music.mp3").play(-1)
 
         #game loop
         while True:
@@ -40,6 +53,14 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
+                #check for jump on click
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.avatar.jump()
+
+                if event.type == self.obstical_timer:
+                    Obstical(self.all_sprites, self.ObsticalFactor)
+
 
             #Game Locic
             self.all_sprites.update(dt)
