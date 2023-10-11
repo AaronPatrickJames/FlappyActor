@@ -48,3 +48,16 @@ class Ground(pygame.sprite.Sprite):
 		if self.rect.centerx <= 0:
 			self.pos.x = 0
 		self.rect.x = round(self.pos.x)
+
+class Avatar(pygame.sprite.Sprite):
+
+	def __init__(self,groups, scale_factor):
+		#What ever group I create will be created here on init
+		super().__init__(groups)
+
+		#image
+		surf = pygame.image.load("../Graphics/Actor/Avatar.png")
+		self.image = pygame.transform.scale(surf, pygame.math.Vector2(surf.get_size())* scale_factor)
+
+		#rect
+		self.rect = self.image.get_rect(midleft = (WINDOW_WIDTH / 20, WINDOW_HEIGHT / 2))
