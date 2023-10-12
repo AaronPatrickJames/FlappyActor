@@ -92,15 +92,18 @@ class Obstical(pygame.sprite.Sprite):
 		orientation = choice(("up", "down"))
 		surf = pygame.image.load("../Graphics/Obsticals/Pipe.png").convert_alpha()
 		self.image = pygame.transform.scale(surf, pygame.math.Vector2(surf.get_size()) * scale_factor)
+		self.image = pygame.transform.scale(self.image, (100, 600))
 		spawnDepth = WINDOW_WIDTH + self.image.get_width()
 
 		if orientation == "up":
-			y = WINDOW_HEIGHT + randint(-325,325)
+			y = WINDOW_HEIGHT + randint(-1,500)
 			self.rect = self.image.get_rect(midbottom =(spawnDepth,y))
+			
 		else:
-			y = 0 + randint(-325, 325)
+			y = 0 + randint(-500, 1)
 			self.image = pygame.transform.flip(self.image, False ,True)
 			self.rect = self.image.get_rect(midtop = (spawnDepth,y))
+			
 
 		self.pos = pygame.math.Vector2(self.rect.topleft)
 

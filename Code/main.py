@@ -31,7 +31,7 @@ class Game:
 
         #timer
         self.obstical_timer = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.obstical_timer, 1000)
+        pygame.time.set_timer(self.obstical_timer, 1600)
         self.ObsticalFactor = self.scale_factor / 8
 
 
