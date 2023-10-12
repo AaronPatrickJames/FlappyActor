@@ -34,6 +34,23 @@ class Game:
         pygame.time.set_timer(self.obstical_timer, 1600)
         self.ObsticalFactor = self.scale_factor / 8
 
+    def collisions(self):
+
+        if pygame.sprite.spritecollide(self.avatar,self.collision_sprites,False, pygame.sprite.collide_mask):
+            print("Gonna Crash")
+            pygame.quit()
+            sys.exit()
+
+        if self.avatar.pos.y >= WINDOW_HEIGHT:
+            print("You Fell")
+            pygame.quit()
+            sys.exit()
+
+        if self.avatar.pos.y <= 0:
+            print("THE ROOF!")
+            pygame.quit()
+            sys.exit()
+
 
     def run(self):
         pygame.mixer.Sound("../Sound/gamestarted.mp3").play()
@@ -59,11 +76,13 @@ class Game:
                     self.avatar.jump()
 
                 if event.type == self.obstical_timer:
-                    Obstical(self.all_sprites, self.ObsticalFactor)
+                    Obstical([self.all_sprites, self.collision_sprites], self.ObsticalFactor)
 
 
             #Game Locic
+            self.display_surface.fill('black')
             self.all_sprites.update(dt)
+            self.collisions()
             self.all_sprites.draw(self.display_surface)
 
             pygame.display.update()

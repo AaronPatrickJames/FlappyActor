@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 from settings import *
 from random import choice, randint
 
@@ -48,6 +48,7 @@ class Ground(pygame.sprite.Sprite):
 			self.pos.x = 0
 		self.rect.x = round(self.pos.x)
 
+
 class Avatar(pygame.sprite.Sprite):
 
 	def __init__(self,groups, scale_factor):
@@ -66,6 +67,9 @@ class Avatar(pygame.sprite.Sprite):
 		self.gravity = 1000
 		self.direction = 0
 
+		#mask
+		self.mask = pygame.mask.from_surface(self.image)
+
 
 	#remember to use a log gravity, not a liniar
 	def apply_gravity(self, dt):
@@ -81,8 +85,7 @@ class Avatar(pygame.sprite.Sprite):
 
 	def update(self, dt):
 			self.apply_gravity(dt)
-
-			
+		
 class Obstical(pygame.sprite.Sprite):
 
 	def __init__(self,groups, scale_factor):
@@ -93,6 +96,8 @@ class Obstical(pygame.sprite.Sprite):
 		surf = pygame.image.load("../Graphics/Obsticals/Pipe.png").convert_alpha()
 		self.image = pygame.transform.scale(surf, pygame.math.Vector2(surf.get_size()) * scale_factor)
 		self.image = pygame.transform.scale(self.image, (100, 600))
+		#coll mask
+		self.mask = pygame.mask.from_surface(self.image)
 		spawnDepth = WINDOW_WIDTH + self.image.get_width()
 
 		if orientation == "up":
